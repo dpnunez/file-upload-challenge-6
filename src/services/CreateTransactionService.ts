@@ -21,10 +21,15 @@ class CreateTransactionService {
   }: Request): Promise<Transaction> {
     const transactionRepository = getCustomRepository(TransactionsRepository);
     const categoryRepository = getRepository(Category);
+    const { total } = await transactionRepository.getBalance();
 
     // Data validation
     if (!['income', 'outcome'].includes(type)) {
       throw new AppError('Tipo invalido', 400);
+    }
+
+    if (type === 'outcome' && value > total) {
+      throw new AppError('Valor invalido', 400);
     }
 
     // Category verification

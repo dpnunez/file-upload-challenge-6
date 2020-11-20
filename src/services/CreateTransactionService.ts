@@ -41,7 +41,7 @@ class CreateTransactionService {
       const { id: category_id } = categoryAlreadyExist;
       const transaction = transactionRepository.create({
         title,
-        value,
+        value: Number(value),
         type,
         category_id,
       });

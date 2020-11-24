@@ -23,9 +23,12 @@ class Transaction {
   @Column('decimal')
   value: number;
 
-  @ManyToOne(() => Category)
-  @JoinColumn({ name: 'category_id' })
+  @Column()
   category_id: string;
+
+  @ManyToOne(() => Category, category => category.transaction, { eager: true })
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
   @CreateDateColumn()
   created_at: Date;
@@ -35,40 +38,3 @@ class Transaction {
 }
 
 export default Transaction;
-
-// import {
-//   Entity,
-//   Column,
-//   PrimaryGeneratedColumn,
-//   CreateDateColumn,
-//   UpdateDateColumn,
-//   ManyToOne,
-//   JoinColumn,
-// } from 'typeorm';
-
-// import User from './User';
-
-// // Toda a instancia de Appointment será salva na tabela "appointments"
-// @Entity('appointments')
-// class Appointment {
-//   @PrimaryGeneratedColumn('uuid')
-//   id: string;
-
-//   @Column()
-//   provider_id: string;
-
-//   @ManyToOne(() => User)
-//   @JoinColumn({ name: 'provider_id' })
-//   provider: User;
-
-//   @Column('timestamp with time zone')
-//   date: Date;
-
-//   @CreateDateColumn()
-//   created_at: Date;
-
-//   @UpdateDateColumn()
-//   updated_at: Date;
-// }
-
-// export default Appointment;
